@@ -1,0 +1,11 @@
+# VirtualBox disks, ISOs and VM configs: huge, never commit
+*.iso
+*.vdi
+*.vmdk
+*.vbox
+*.vbox-prev
+*.sav
+
+# Windows clutter
+Thumbs.db
+desktop.ini
