@@ -23,11 +23,9 @@ None. This phase was all in the VirtualBox interface.
 ![LabNet settings](screenshots/01-labnet-settings.png)
 
 ## Problems and fixes
-(the menu path wasn't where the guide said; you found it under Preferences, then Network)
 
 Initially I was unable to locate 'Network' under 'Tools'. Once I clicked 'Expert Mode' on 'Please Choose Experience Mode', 'Network' showed up.
 
 ## How I verified it worked
-(LabNet appears in the NAT Networks list with 10.0.2.0/24 and DHCP enabled)
 
 LabNet appears in NAT Networks list with prefix 10.0.2.0/24 and DHCP enabled. When I closed the Network tab and reopened it, LabNet was still there, so it saved.
