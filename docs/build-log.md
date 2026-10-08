@@ -6,3 +6,10 @@
 **Learned:** Git only tracks files, not folders, empty folders need a .gitkeep files to show up on GitHub.
 **Concept Check:** 'git config --global' saves settings for every repo on this PC, not just this one.
 **Next:** Create the GitHub repo and push.
+
+## 2026-10-07
+**Did:** Created the LabNet NAT network (10.0.2.0/24, DHCP on) and documented it in docs/01-virtualbox-setup.md.
+**Problems:** Initially I was unable to locate Network under Tools. Once I clicked Expert Mode, Network showed up.
+**Learned:** NAT Network lets VMs reach each other and the internet; plain NAT isolates each VM.
+**Concept check:** /24 leaves 254 usable addresses, because .0 is the network address and .255 is the broadcast address.
+**Next:** Download the Windows Server ISO if not done, then build DC01 (Phase 2).
