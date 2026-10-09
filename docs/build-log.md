@@ -13,3 +13,10 @@
 **Learned:** NAT Network lets VMs reach each other and the internet; plain NAT isolates each VM.
 **Concept check:** /24 leaves 254 usable addresses, because .0 is the network address and .255 is the broadcast address.
 **Next:** Download the Windows Server ISO if not done, then build DC01 (Phase 2).
+
+## 2026-10-08
+**Did:** Built the DC01 VM, installed Windows Server 2025, connected it to LabNet, installed Guest Additions, and set up the shared folder. Documented it in docs/02-domain-controller.md.
+**Problems:** Guest Additions reboot hung for 15 min; forced a power off and the VM came back fine. Auto-resize still doesn't work, but the shared folder does, so I moved on.
+**Learned:** Guest Additions is what makes shared folders work. Dynamic disks are the only way two VMs fit on 73 GB free.
+**Concept check:** The hypervisor (VirtualBox) runs the VMs and splits the real hardware between them. DC01 is one of those VMs. Dynamic disk because fixed would claim all 50 GB up front.
+**Next:** Phase 3, static IP and hostname.
