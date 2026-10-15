@@ -31,9 +31,16 @@ Settings and why:
 
 ## Commands used
 ```powershell
+# Confirm which Windows edition and build actually installed
 Get-ComputerInfo | Select-Object WindowsProductName, WindowsEditionId, OsVersion, OsArchitecture
+
+# Check Guest Additions installed correctly (Status should be Running)
 Get-Service VBoxService
-Get-ChildIte, \\VBOXSVR\ad-homelab
+
+# List the shared repo folder from inside the VM, proving the share works
+Get-ChildItem \\VBOXSVR\ad-homelab
+
+# Server config menu: set Windows Update to Manual and the time zone to Eastern
 sconfig
 ```
 
@@ -58,3 +65,67 @@ Get-ComputerInfo confirmed Windows Server 2025 Standard Evaluation, 64-bit.
 Get-Service VBoxService returned Running.
 Get-ChildItem \\VBOXSVR\ad-homelab listed README.md, .gitignore and the repo
 folders, which proves both Guest Additions and the shared folder are working.
+
+
+
+## Part 2: Static IP and hostname with PowerShell
+
+## Goal:
+Give DC01 its permanent address and name using a script. 
+
+## Steps:
+1. In VS code, write 01-configure-network script
+2. In VM PowerShell, run: 
+  - Set-ExecutionPolicy Bypass -Scope Process
+  - Set-Location \\VBOXSVR\ad-homelab\scripts
+  - Get-NetAdapter
+  - .\01-configure-network.ps1
+3. Check that Get-NetAdapter shows name as "Ethernet"
+4. VM restarts, then log back in
+5. Verify changes worked:
+  - hostname: DC01
+  - ipconfig /all: 
+    - IPv4 address: 10.0.2.10
+    - subnet mask: 255.255.255.0
+    - gateway: 10.0.2.1
+    - DNS server: 127.0.0.1
+
+
+## Commands used:
+```powershell
+# Find the adapter name before running the script
+Get-NetAdapter
+
+# Allow the script to run in this window only, then run it from the shared folder
+Set-ExecutionPolicy Bypass -Scope Process -Force
+\\VBOXSVR\ad-homelab\scripts\01-configure-network.ps1
+
+# After the restart, verify
+hostname                 # prints DC01
+ipconfig /all            # 10.0.2.10, mask 255.255.255.0, gateway 10.0.2.1, DNS 127.0.0.1
+ping 10.0.2.1            # gateway replies
+ping 8.8.8.8             # internet routing works
+ping google.com          # fails: no DNS server on this box yet, fixed in Phase 4
+```
+
+## Screenshots:
+![Script in VS Code](screenshots/03-script-vscode.png)
+![ipconfig /all after the change](screenshots/03-ipconfig-dc01.png)
+![8.8.8.8 works, google.com fails](screenshots/03-ping.google.png)
+
+
+## Problems and fixes:
+Didn't capture the adapter's DHCP address before running the script, so there's
+no before/after pair for this phase. Will take a before shot on CLIENT01 in Phase 8.
+
+After the script ran, `ping google.com` failed with "could not find host" while
+`ping 8.8.8.8` replied fine. Not a fault: the script points DNS at 127.0.0.1 and
+there's no DNS server on the box until AD DS installs one in Phase 4. Routing out
+works, name resolution doesn't. Phase 4.3 will fix it with a forwarder.
+
+## How I verified it worked:
+`hostname` returned DC01, so the rename took effect after the restart.
+`ipconfig /all` showed 10.0.2.10, mask 255.255.255.0, gateway 10.0.2.1, DNS 127.0.0.1,
+which matches what the script set.
+`ping 10.0.2.1` got replies, confirming DC01 can reach the LabNet gateway.
+`ping 8.8.8.8` got replies, confirming the NAT Network still routes to the internet.

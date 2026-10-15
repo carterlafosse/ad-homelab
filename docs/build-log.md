@@ -20,3 +20,10 @@
 **Learned:** Guest Additions is what makes shared folders work. Dynamic disks are the only way two VMs fit on 73 GB free.
 **Concept check:** The hypervisor (VirtualBox) runs the VMs and splits the real hardware between them. DC01 is one of those VMs. Dynamic disk because fixed would claim all 50 GB up front.
 **Next:** Phase 3, static IP and hostname.
+
+## 2026-10-15
+**Did:** Wrote scripts/01-configure-network.ps1 to set DC01's static IP to 10.0.2.10 and rename it. Ran it from the shared folder and verified after the restart. Documented it in docs/02-domain-controller.md.
+**Problems:** ping google.com failed while ping 8.8.8.8 worked. Expected: DNS points at 127.0.0.1 and there's no DNS server until Phase 4. Also forgot a before shot of the DHCP address.
+**Learned:** Connectivity and name resolution are separate. You can reach the internet by IP and still fail on names.
+**Concept check:** [your answer to the Phase 3 concept check]
+**Next:** Phase 4, install Active Directory.
