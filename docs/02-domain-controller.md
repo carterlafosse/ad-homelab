@@ -129,3 +129,69 @@ works, name resolution doesn't. Phase 4.3 will fix it with a forwarder.
 which matches what the script set.
 `ping 10.0.2.1` got replies, confirming DC01 can reach the LabNet gateway.
 `ping 8.8.8.8` got replies, confirming the NAT Network still routes to the internet.
+
+
+
+## Part 3: Promotion to domain controller
+
+## Goal:
+Install AD DS and promote DC01 to the first domain controller in a new
+forest, carterlab.local.
+
+A domain controller is the server that holds the directory of every user,
+group and computer in the organization, and answers the question "is this
+person who they say they are, and what are they allowed to do?" Every login,
+every permission check and every policy that applies to a machine traces back
+to it. Without one, every PC keeps its own separate list of accounts and
+nothing is managed centrally.
+
+## Steps:
+1. Wrote scripts/02-install-adds.ps1
+2. Ran it in an admin PowerShell window on DC01
+3. Set the DSRM password (stored in a password manager, not in this repo)
+4. Waited through the promotion and automatic restart
+5. Logged in as CARTERLAB\Administrator
+6. Ran the verification commands
+7. Added a DNS forwarder so outside lookups resolve
+8. Took a VirtualBox snapshot named "Clean DC"
+
+## Commands used:
+```powershell
+# Install the role and promote this server to a new forest
+Set-ExecutionPolicy Bypass -Scope Process -Force
+\\VBOXSVR\ad-homelab\scripts\02-install-adds.ps1
+
+# Verify after the restart
+Get-ADDomain
+Get-ADDomainController
+Get-Service NTDS, DNS, Netlogon
+nslookup carterlab.local
+
+# Forward external lookups to a public DNS server
+Add-DnsServerForwarder -IPAddress 8.8.8.8
+ping google.com
+```
+
+## Screenshots:
+![Promotion script output](screenshots/04-promotion-output.png)
+![Verification commands, part 1](screenshots/04-verification-1.png)
+![Verification commands, part 2](screenshots/04-verification-2.png)
+![AD DS and DNS in Server Manager](screenshots/04-server-manager-roles.png)
+![Default AD structure in ADUC](screenshots/04-aduc-default.png)
+![SRV records under _msdcs.carterlab.local](screenshots/04-dns-srv-records.png)
+
+## Problems and fixes:
+Server Manager showed two DNS warnings from boot (4013 and 4017) and a red
+Local Server tile. 4013 is DNS waiting for AD to finish its initial sync,
+normal on a single DC. The red tile was InventorySvc, a Windows compatibility
+service set to Automatic (Delayed Start) that wasn't running. Neither affects
+AD. AD DS and DNS both showed green and the verification commands came back
+clean.
+
+## How I verified it worked:
+Get-ADDomain returned carterlab.local with DC01 listed.
+Get-ADDomainController confirmed DC01 as a domain controller.
+NTDS, DNS and Netlogon were all Running.
+nslookup carterlab.local resolved to 10.0.2.10.
+ping google.com started working after the forwarder was added, which fixed
+the failure I documented in Phase 3.
