@@ -37,3 +37,13 @@ ping 8.8.8.8 works because routing is fine. The packet goes out through the gate
 SRV records are service records. A normal A record maps a name to an IP, but an SRV record also says which service runs where, on what port, with what priority. The _ldap and _kerberos entries under _msdcs.carterlab.local tell a client "for LDAP in this domain, talk to DC01 on port 389." That's how a machine finds a DC it has never heard of.
 A domain is one group of users and computers managed together under a name, here carterlab.local. A forest is the outer container that holds one or more domains and defines the trust boundary between them. Mine is a single-domain forest, which is the usual setup for small and mid-sized companies.
 **Next:** Phase 5, OUs, groups and users.
+
+## 2026-10-18
+**Did:** Built the directory structure: four OUs, five role-based security groups, and ten users imported from users.csv with job titles. Added ppatel to a second group. Documented it in docs/03-users-and-groups.md.
+**Problems:** The import failed with "could not find users.csv" because `.\` resolves against the caller's directory, not the script's. Fixed with $PSScriptRoot. Re-running then printed "Created group" right after each "already exists" error, because Write-Host runs regardless of whether the command before it worked. Rewrote the loop to check with Get-ADGroup first, so the script is safe to run twice and honest about what it did.
+**Learned:** A script that reports success on failure is worse than one that crashes. Checking before acting makes it idempotent, which matters as soon as anyone else runs it.
+**Concept check:**
+An OU is a container that organizes objects and is where Group Policy attaches, so it controls what settings apply. A security group is a list of members used to grant permissions, and it doesn't care where in the tree those members sit. A user lives in exactly one OU but can belong to many groups.
+OU=IT,DC=carterlab,DC=local reads from the object outward: the IT organizational unit, inside the domain carterlab.local. Each DC= is one piece of the domain name split at the dots.
+The pipeline sends the output of one command into the next as input. In 04-create-users.ps1, Import-Csv hands each row to ForEach-Object, so the loop runs once per user instead of me writing ten New-ADUser calls.
+**Next:** Phase 6, password and lockout policy.

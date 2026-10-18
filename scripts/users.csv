@@ -1,0 +1,11 @@
+First,Last,Username,OU,Title,Group
+Jordan,Smith,jsmith,"OU=Staff,DC=carterlab,DC=local",Lifeguard,Lifeguards
+Logan,Brooks,lbrooks,"OU=Staff,DC=carterlab,DC=local",Lifeguard,Lifeguards
+Priya,Patel,ppatel,"OU=Staff,DC=carterlab,DC=local",Head Lifeguard,Supervisors
+Sara,Lindqvist,slindqvist,"OU=Staff,DC=carterlab,DC=local",Aquatics Supervisor,Supervisors
+Mei,Chen,mchen,"OU=Staff,DC=carterlab,DC=local",Swim Instructor,Instructors
+Daniel,Okafor,dokafor,"OU=Staff,DC=carterlab,DC=local",Swim Instructor,Instructors
+Tom,Reyes,treyes,"OU=Staff,DC=carterlab,DC=local",Front Desk Attendant,Attendants
+Ana,Costa,acosta,"OU=Staff,DC=carterlab,DC=local",Front Desk Attendant,Attendants
+Nina,Haddad,nhaddad,"OU=IT,DC=carterlab,DC=local",IT Support,HelpDesk
+Marc,Dubois,mdubois,"OU=IT,DC=carterlab,DC=local",IT Support,HelpDesk
