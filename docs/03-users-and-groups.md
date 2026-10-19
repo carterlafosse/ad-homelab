@@ -1,6 +1,8 @@
-# Phase 5: OUs, groups and users
+# Users, groups and password policy
 
-## Goal:
+## Part 1: OUs, groups and users
+
+### Goal:
 Build the directory structure for a small aquatics department: four OUs, five
 role-based security groups, and ten users imported from a CSV.
 
@@ -28,7 +30,7 @@ Supervisors only. That overlap is why membership and job title are tracked
 separately: the Title field says what someone does, the groups say what they
 can reach.
 
-## Steps:
+### Steps:
 1. Created one OU and one user by hand in ADUC first, clicked through every
    Properties tab, then deleted both
 2. Wrote scripts/03-create-ous.ps1 for the four OUs
@@ -38,7 +40,7 @@ can reach.
 6. Added ppatel to Lifeguards as a second group
 7. Verified in PowerShell and in ADUC
 
-## Commands used:
+### Commands used:
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
 \\VBOXSVR\ad-homelab\scripts\03-create-ous.ps1
@@ -51,8 +53,7 @@ Get-ADGroupMember Lifeguards | Select-Object Name
 Get-ADPrincipalGroupMembership ppatel | Select-Object Name
 ```
 
-## Screenshots:
-## Screenshots
+### Screenshots:
 ![users.csv in VS Code](screenshots/05-csv-in-vscode.png)
 ![Creating the OUs and groups](screenshots/05-script-output.png)
 ![Importing the users from CSV](screenshots/05-script-user-output.png)
@@ -61,7 +62,7 @@ Get-ADPrincipalGroupMembership ppatel | Select-Object Name
 ![Groups OU with the five security groups](screenshots/05-aduc-structure-groups.png)
 ![ppatel: Head Lifeguard, in both Supervisors and Lifeguards](screenshots/05-user-title.png)
 
-## Problems and fixes:
+### Problems and fixes:
 The first run of 04-create-users.ps1 failed with "Could not find file
 C:\Users\Administrator\users.csv". The script used `.\users.csv`, which
 resolves against the caller's current directory, not the script's own folder.
@@ -75,7 +76,7 @@ command before it succeeded, so the script was reporting success on failure.
 Rewrote the loop to check with Get-ADGroup first, which makes the script safe
 to run twice and honest about what it did.
 
-## How I verified it worked:
+### How I verified it worked:
 All four OUs appeared in Get-ADOrganizationalUnit.
 All ten users listed as Enabled with their job titles populated from the CSV.
 Get-ADGroupMember Lifeguards returned jsmith, lbrooks and ppatel.
@@ -83,3 +84,54 @@ Get-ADPrincipalGroupMembership ppatel returned both Supervisors and Lifeguards,
 confirming the second group add worked.
 ADUC showed the Staff OU holding eight users and the Groups OU holding the five
 security groups.
+
+
+## Part 2: Password and lockout policy
+
+### Goal:
+Set a domain-wide password and lockout policy so accounts can't use weak
+passwords and can't be brute-forced.
+
+| Setting | Value | What it means |
+|---|---|---|
+| Minimum length | 12 characters | Shorter passwords are refused |
+| Complexity | On | Needs three of: uppercase, lowercase, number, symbol |
+| Lockout threshold | 5 attempts | Five wrong passwords locks the account |
+| Lockout duration | 15 minutes | A locked account unlocks itself after 15 minutes, or when IT unlocks it |
+| Observation window | 15 minutes | Failed attempts older than 15 minutes stop counting toward the five |
+
+Lockout exists so an attacker can't sit there guessing indefinitely: after five
+wrong tries the account stops accepting attempts, which turns a fast
+brute-force attempt into something too slow to be worth running.
+
+This is set on the domain, not an OU. In classic AD there's one password policy
+per domain, held in the Default Domain Policy, so a GPO with password settings
+linked to an OU silently does nothing. Per-group exceptions need Fine-Grained
+Password Policies instead.
+
+### Steps:
+1. Wrote scripts/05-password-policy.ps1 using splatting
+2. Ran it on DC01 in an admin window
+3. Verified the settings
+4. Tested enforcement by trying to set a weak password
+
+### Commands used:
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+\\VBOXSVR\ad-homelab\scripts\05-password-policy.ps1
+
+Get-ADDefaultDomainPasswordPolicy
+```
+
+### Screenshots:
+![Password policy settings](screenshots/06-password-policy.png)
+![Weak password refused, then accepted](screenshots/06-policy-enforced.png)
+
+### Problems and fixes:
+None this phase.
+
+### How I verified it worked:
+Get-ADDefaultDomainPasswordPolicy returned all five values matching the table.
+Setting a user's password to "password" was refused for not meeting
+requirements; a 12-character complex password was accepted, which proves the
+policy is enforced rather than just configured.

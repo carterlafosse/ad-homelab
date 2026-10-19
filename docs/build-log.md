@@ -47,3 +47,10 @@ An OU is a container that organizes objects and is where Group Policy attaches, 
 OU=IT,DC=carterlab,DC=local reads from the object outward: the IT organizational unit, inside the domain carterlab.local. Each DC= is one piece of the domain name split at the dots.
 The pipeline sends the output of one command into the next as input. In 04-create-users.ps1, Import-Csv hands each row to ForEach-Object, so the loop runs once per user instead of me writing ten New-ADUser calls.
 **Next:** Phase 6, password and lockout policy.
+
+## 2026-10-18
+**Did:** Set the domain password and lockout policy with scripts/05-password-policy.ps1, using splatting to keep the parameters readable. Verified with Get-ADDefaultDomainPasswordPolicy. Documented it in docs/03-users-and-groups.md.
+**Problems:** None this phase.
+**Learned:** Password policy is per-domain, not per-OU. A GPO with password settings linked to an OU silently does nothing, which would be a confusing thing to debug if you didn't know.
+**Concept check:** No, they wouldn't be locked out. The observation window is 15 minutes, so the four failures from 20 minutes ago have expired and no longer count. The counter restarts, and the two recent failures put them at 2 of 5. They'd need three more wrong attempts within 15 minutes of those two to trip the lockout.
+**Next:** Phase 7, file share and Group Policy.
