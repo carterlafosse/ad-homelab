@@ -54,3 +54,12 @@ The pipeline sends the output of one command into the next as input. In 04-creat
 **Learned:** Password policy is per-domain, not per-OU. A GPO with password settings linked to an OU silently does nothing, which would be a confusing thing to debug if you didn't know.
 **Concept check:** No, they wouldn't be locked out. The observation window is 15 minutes, so the four failures from 20 minutes ago have expired and no longer count. The counter restarts, and the two recent failures put them at 2 of 5. They'd need three more wrong attempts within 15 minutes of those two to trip the lockout.
 **Next:** Phase 7, file share and Group Policy.
+
+## 2026-10-18
+**Did:** Created the Lifeguards share with both permission layers, then two GPOs linked to the Staff OU: a drive map to L: targeted at the Lifeguards group, and a Control Panel restriction for all staff. Exported both as HTML reports. Documented it in docs/04-group-policy.md.
+**Problems:** Went looking for Drive Maps under Computer Configuration; it's User Configuration only. DC01 also froze and had to be force powered off, logging Kernel-Power 41 on the next boot.
+**Learned:** Security Filtering and item-level targeting are separate filters. The GPO reaches everyone in Staff; the targeting inside the preference decides who gets the drive. Also that icacls showed inherited BUILTIN\Users rights from C:\, so the share permission is doing the real restricting here, not NTFS.
+**Concept check:**
+Full Control on the share but Read in NTFS means they can only read over the network. Effective access is the more restrictive of the two layers, and NTFS wins here. Locally they'd also only get Read, since NTFS applies either way.
+The guide's question uses lbrooks, but in my CSV Logan Brooks is a lifeguard, so he gets both. Using mchen instead: she's in the Staff OU, so the Restrict Control Panel GPO applies to her like everyone else there. The drive map GPO also applies to her, but the item-level targeting inside the preference checks for membership of the Lifeguards group, and she's an Instructor. So the preference is skipped and no L: drive appears. Same GPO, different outcome, decided by group membership.
+**Next:** Phase 8, build CLIENT01 and join the domain.
