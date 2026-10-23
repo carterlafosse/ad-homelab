@@ -1,6 +1,6 @@
 # Ticket 002 — Account locked out
 
-**Reported issue:** User jsmith can't sign in to CLIENT01. She says the
+**Reported issue:** User jsmith, a lifeguard, can't sign in to CLIENT01. She says the
 password is correct and she hasn't changed it. The sign-in screen tells her
 the account is locked.
 

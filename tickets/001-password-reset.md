@@ -1,6 +1,6 @@
 # Ticket 001 — Password reset
 
-**Reported issue:** User mchen can't sign in to CLIENT01 and says she's forgotten
+**Reported issue:** User mchen, a swim instructor, can't sign in to CLIENT01 and says she's forgotten
 her password.
 
 **Identity verification:** Before touching the account I'd confirm the caller
