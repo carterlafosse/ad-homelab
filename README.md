@@ -58,7 +58,7 @@ Server VM. See [scripts/README.md](scripts/README.md) for what each one does.
 ## What I learned
 The thing that really shocked me was how much of troubleshooting is just 
 trying to figure out whether anything is actually broken. Three of my five 
-tickets scenarios turned out to be configuration working exactly as designed, 
+ticket scenarios turned out to be configuration working exactly as designed, 
 and the useful skill I started to pick up was learning how to tell that apart 
 quickly rather than just knowing more commands.
 
@@ -72,8 +72,8 @@ I also learned that systems hide their own failures. When I broke DNS
 deliberately, users kept logging in because the DC Locator cache still knew
 where the domain controller lived. That's why real outages can show up as "it
 works for some people but not others" instead of everything stopping at once.
-It's one thing to learn theory behind these concepts, but a really cool 
-experience to experiement and break them yourself then you can see how it all
+It's one thing to learn the theory behind these concepts, but a really cool 
+experience to experiment and break them yourself then you can see how it all
 works.
 
 Writing it all down as I went turned out to be worth more than the build
