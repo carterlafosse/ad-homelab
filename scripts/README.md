@@ -29,5 +29,5 @@ before the security groups can be placed in it.
 storing one. The password has to meet the policy set in `05-password-policy.ps1`
 if that script has already run, so use 12 or more characters with mixed types.
 
-`04-create-users.ps1` checks whether each group already exists before creating
-it, so it can be run more than once without producing misleading output.
+Scripts 03 and 04 both check whether an object exists before creating it, so
+they can be run more than once without producing misleading output.
