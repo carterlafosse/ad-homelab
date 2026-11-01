@@ -71,7 +71,7 @@ controller for authentication.
 
 **Resolution:**
 
-```powershell
+```PowerShell
 Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 10.0.2.10
 Restart-Computer
 ```

@@ -76,7 +76,7 @@ Lifeguards gives them the drive without touching Group Policy at all.
 8. Exported both GPOs as HTML reports into gpo-reports/
 
 ## Commands used
-```powershell
+```PowerShell
 Set-ExecutionPolicy Bypass -Scope Process -Force
 \\VBOXSVR\ad-homelab\scripts\06-create-share.ps1
 

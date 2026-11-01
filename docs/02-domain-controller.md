@@ -30,7 +30,7 @@ Settings and why:
 10. Removed both ISOs from the virtual drive, deleted the Server ISO from C:\ISOs
 
 ### Commands used
-```powershell
+```PowerShell
 # Confirm which Windows edition and build actually installed
 Get-ComputerInfo | Select-Object WindowsProductName, WindowsEditionId, OsVersion, OsArchitecture
 
@@ -90,7 +90,7 @@ Give DC01 its permanent address and name using a script.
     - DNS server: 127.0.0.1
 
 ### Commands used:
-```powershell
+```PowerShell
 # Find the adapter name before running the script
 Get-NetAdapter
 
@@ -152,7 +152,7 @@ nothing is managed centrally.
 8. Took a VirtualBox snapshot named "Clean DC"
 
 ### Commands used:
-```powershell
+```PowerShell
 # Install the role and promote this server to a new forest
 Set-ExecutionPolicy Bypass -Scope Process -Force
 \\VBOXSVR\ad-homelab\scripts\02-install-adds.ps1

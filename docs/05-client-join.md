@@ -29,7 +29,7 @@ DNS gets pointed at DC01 before anything else is attempted.
 9. Logged in as real users and tested the policies
 
 ## Commands used:
-```powershell
+```PowerShell
 # Before: DNS came from DHCP and couldn't resolve the domain
 ipconfig /all
 

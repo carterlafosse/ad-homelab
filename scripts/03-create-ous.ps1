@@ -1,6 +1,6 @@
 # 03-create-ous.ps1
 # Purpose: create the OU structure for the fake company
-# run on: DC01, Powershell as Administrator
+# Run on: DC01, PowerShell as Administrator
 
 $domain = "DC=carterlab,DC=local"
 

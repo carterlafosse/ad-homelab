@@ -2,7 +2,7 @@
 
 # Purpose: create security groups, then bulk-create users from users.csv
 #          and add each one to their group.
-# Run on: DC01, PowerShell as Administrator, from the scripts folder.
+# Run on: DC01, PowerShell as Administrator, from the scripts folder
 
 $groupsOU = "OU=Groups,DC=carterlab,DC=local"
 

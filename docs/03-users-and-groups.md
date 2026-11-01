@@ -41,7 +41,7 @@ can reach.
 7. Verified in PowerShell and in ADUC
 
 ### Commands used:
-```powershell
+```PowerShell
 Set-ExecutionPolicy Bypass -Scope Process -Force
 \\VBOXSVR\ad-homelab\scripts\03-create-ous.ps1
 \\VBOXSVR\ad-homelab\scripts\04-create-users.ps1
@@ -116,7 +116,7 @@ Password Policies instead.
 4. Tested enforcement by trying to set a weak password
 
 ### Commands used:
-```powershell
+```PowerShell
 Set-ExecutionPolicy Bypass -Scope Process -Force
 \\VBOXSVR\ad-homelab\scripts\05-password-policy.ps1
 

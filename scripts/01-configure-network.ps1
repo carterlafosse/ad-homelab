@@ -1,7 +1,7 @@
 # 01-configure-network.ps1
 
 # Purpose: give DC01 a permanent (static) IP on LabNet and a proper hostname
-# Run on: DC01, in Powershell as Administrator
+# Run on: DC01, PowerShell as Administrator
 # Before running: confirm the adapter name with Get-NetAdapter
 
 # Static IP: 10.0.2.10 on the 10.0.2.0/24 network, using LabNet gateway
