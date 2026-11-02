@@ -4,7 +4,7 @@ A Windows Server 2025 Active Directory environment modelling a small municipal
 aquatics department, built in VirtualBox with PowerShell automation, Group
 Policy, and five documented help desk scenarios.
 
-![Group Policy Management showing both GPOs linked to the Staff OU](docs/screenshots/07-gpo-links.png)
+![OU structure and staff accounts in Active Directory Users and Computers](docs/screenshots/05-aduc-structure-staff.png)
 
 ## Lab diagram
 
