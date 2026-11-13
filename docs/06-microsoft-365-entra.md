@@ -68,8 +68,71 @@ ones that get forgotten when someone changes roles or leaves.
 ![Jordan signed in to Outlook](screenshots/10-user-outlook.png)
 
 ## 2. Passwords and MFA
+
 ### Why Conditional Access instead of security defaults:
+Security defaults are all-or-nothing: MFA for everyone, with no way to
+exclude anyone or adjust what it applies to. Conditional Access lets me
+decide who a policy covers, which apps it applies to and what it requires.
+I built one policy, CA001, that requires MFA for every user signing in to
+any app, with one exclusion: a break-glass account.
+
+The break-glass account is an emergency Global Administrator that the MFA
+policy doesn't apply to. If MFA ever breaks, or a policy locks out every
+admin, it's how you get back in. Its password is long, stored in a password
+manager, and appears nowhere in this repo.
+
+In a real organization I'd run a new policy in Report-only mode first and
+check the sign-in logs for anyone it would block, before switching it on.
+In the lab I turned it straight on.
+
+The policy is exported as JSON in
+[ca-policies/CA001-require-mfa.json](../ca-policies/CA001-require-mfa.json).
+
+### Self-service password reset:
+Password resets are the most common help desk ticket, so letting users
+reset their own password with MFA cuts a lot of calls. I enabled SSPR for a
+pilot group, SG-SSPR-Pilot (Jordan and Mei), rather than everyone, the same
+way a real rollout would start small before going company-wide.
+
+The legacy SSPR methods page now only controls security questions, which
+Microsoft retires in March 2027. I left them off, since they're easy to
+guess or find. The reset method is Microsoft Authenticator, enabled for all
+users in the Authentication methods policy, with one method required.
+Admins are handled separately: they always have SSPR and need two methods.
+
 ### Steps:
+1. Reset Mei's password in the Microsoft 365 admin center with a forced
+   change at next sign-in
+2. Created a break-glass Global Administrator with no licence and a long
+   password
+3. Turned off security defaults so Conditional Access could take over
+4. Created CA001 - Require MFA for all users: all users except the
+   break-glass account, all resources, grant access with MFA, enabled
+5. Signed in as Mei and was forced to register Microsoft Authenticator
+6. Created SG-SSPR-Pilot with Jordan and Mei, and enabled SSPR for that
+   group only
+7. Confirmed Microsoft Authenticator is enabled in the Authentication
+   methods policy and left security questions off
+8. Reset Mei's password as Mei at aka.ms/sspr, approving with Authenticator
+
+### Problems:
+- I turned off security defaults on Nov 9 but didn't create CA001 until
+  Nov 13, so the tenant had no MFA requirement for four days. In a real
+  tenant those two steps have to happen back to back.
+- Registering Authenticator as Mei failed with "BadRequest" in Chrome
+  Incognito, because Incognito blocks the third-party cookies that
+  Microsoft's sign-in pages need. It worked after allowing them.
+
+### Screenshots:
+![Password reset with forced change at next sign-in](screenshots/10-password-reset.png)
+![Security defaults disabled for Conditional Access](screenshots/10-security-defaults-off.png)
+![CA001 policy details](screenshots/10-ca-policy-settings.png)
+![CA001 enabled in the policy list](screenshots/10-ca-policy-list.png)
+![Mei forced to set up MFA at sign-in](screenshots/10-mfa-prompt.png)
+![SSPR enabled for SG-SSPR-Pilot](screenshots/10-sspr-properties.png)
+![Legacy SSPR methods page: one method required, security questions off](screenshots/10-sspr-methods.png)
+![Microsoft Authenticator enabled in the Authentication methods policy](screenshots/10-auth-methods-policy.png)
+![Mei's password reset through SSPR](screenshots/10-sspr-success.png)
 
 ## 3. Exchange: shared mailbox and distribution list
 ### Full Access vs Send As:

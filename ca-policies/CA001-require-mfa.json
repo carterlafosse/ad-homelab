@@ -1,0 +1,61 @@
+{
+    "@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/conditionalAccess/policies/$entity",
+    "id": "fe34584d-ad33-431e-ae02-3d0c9d13eadb",
+    "templateId": null,
+    "displayName": "CA001 - Require MFA for all  users",
+    "createdDateTime": "2026-11-13T20:32:03.3761486Z",
+    "modifiedDateTime": null,
+    "state": "enabled",
+    "deletedDateTime": null,
+    "partialEnablementStrategy": null,
+    "sessionControls": null,
+    "conditions": {
+        "userRiskLevels": [],
+        "signInRiskLevels": [],
+        "clientAppTypes": [
+            "all"
+        ],
+        "platforms": null,
+        "locations": null,
+        "times": null,
+        "deviceStates": null,
+        "devices": null,
+        "clientApplications": null,
+        "agents": null,
+        "actionsAndDestinations": null,
+        "applications": {
+            "includeApplications": [
+                "All"
+            ],
+            "excludeApplications": [],
+            "includeUserActions": [],
+            "includeAgentActions": [],
+            "includeAuthenticationContextClassReferences": [],
+            "applicationFilter": null
+        },
+        "users": {
+            "includeUsers": [
+                "All"
+            ],
+            "excludeUsers": [
+                "141087e4-3e29-4f82-8d14-911c72b4bef6"
+            ],
+            "includeGroups": [],
+            "excludeGroups": [],
+            "includeRoles": [],
+            "excludeRoles": [],
+            "includeGuestsOrExternalUsers": null,
+            "excludeGuestsOrExternalUsers": null
+        }
+    },
+    "grantControls": {
+        "operator": "OR",
+        "builtInControls": [
+            "mfa"
+        ],
+        "customAuthenticationFactors": [],
+        "termsOfUse": [],
+        "authenticationStrength@odata.context": "https://graph.microsoft.com/beta/$metadata#identity/conditionalAccess/policies('fe34584d-ad33-431e-ae02-3d0c9d13eadb')/grantControls/authenticationStrength/$entity",
+        "authenticationStrength": null
+    }
+}
