@@ -21,6 +21,7 @@ Tickets 001–005 run against the on-premises Active Directory domain. Ticket
 | [004](004-mapped-drive-missing.md) | Mapped drive disappeared | User removed from a security group |
 | [005](005-no-logon-servers.md) | "No logon servers available" | Client DNS pointed at a public resolver |
 | [006](006-new-hire-no-license.md) | New hire has no Outlook | Not added to the licensing group |
+| [007](007-shared-mailbox-missing.md) | Can't open shared mailbox | Send As granted without Full Access |
 | [008](008-mfa-new-phone.md) | New phone, can't complete MFA | Authenticator tied to the old device |
 
 Most of them turned out to be configuration working exactly as designed, or
