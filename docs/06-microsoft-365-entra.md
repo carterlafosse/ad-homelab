@@ -135,8 +135,57 @@ Admins are handled separately: they always have SSPR and need two methods.
 ![Mei's password reset through SSPR](screenshots/10-sspr-success.png)
 
 ## 3. Exchange: shared mailbox and distribution list
+
+### Shared mailbox:
+Aquatics Help Desk (aquaticshelp@carterlab.onmicrosoft.com) is a shared
+inbox that several staff can read and reply from, so requests don't depend
+on one person's mailbox. Shared mailboxes don't need a licence of their
+own; access comes from permissions granted to licensed users.
+
 ### Full Access vs Send As:
+| Permission | What it lets someone do |
+|---|---|
+| Read and manage (Full Access) | Open the mailbox, read its mail and manage its folders |
+| Send as | Send email that appears to come from the mailbox itself |
+
+They're separate permissions, and one doesn't include the other. A user
+with Send as but no Full Access can send from the mailbox but can't open
+it, which became ticket 007. New Full Access permissions can take up to an
+hour to start working in Outlook.
+
+### Distribution list:
+All Staff (allstaff@carterlab.onmicrosoft.com) delivers one email to
+everyone in the department. Joining and leaving are both closed, so IT
+manages the membership rather than the users, and only people inside the
+organization can send to it.
+
 ### Steps:
+1. Created the shared mailbox Aquatics Help Desk in the Exchange admin
+   center
+2. Gave Jordan Full Access and Send as
+3. Gave Priya Send as only, reproduced ticket 007, then added Full Access
+4. Added the mailbox in Outlook on the web as Jordan and sent an email as
+   Aquatics Help Desk
+5. Created the All Staff distribution list with Priya, Jordan, Mei and
+   Owen, closed to joining, leaving and outside senders
+6. Sent a test email to All Staff and confirmed Mei received it
+
+### Problems:
+- Creating the mailbox as "Help Desk" failed with "The name is already
+  being used", even though no mailbox, group or user with that name was
+  visible. It was most likely a leftover object from an attempt while the
+  tenant was still provisioning. I named it Aquatics Help Desk instead.
+- Outlook didn't suggest All Staff when I first addressed the test email,
+  because the address book hadn't picked up the new list yet. Typing the
+  full address worked.
+
+### Screenshots:
+![Aquatics Help Desk shared mailbox](screenshots/10-shared-mailbox.png)
+![Full Access and Send as for Jordan and Priya](screenshots/10-mailbox-delegation.png)
+![Aquatics Help Desk in Jordan's Outlook](screenshots/10-shared-in-outlook.png)
+![Email received from Aquatics Help Desk](screenshots/10-send-as.png)
+![All Staff distribution list members](screenshots/10-distribution-list.png)
+![All Staff email received by Mei](screenshots/10-allstaff-received.png)
 
 ## 4. Offboarding
 ### Why the order matters:
