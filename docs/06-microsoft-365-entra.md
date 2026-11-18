@@ -188,5 +188,64 @@ organization can send to it.
 ![All Staff email received by Mei](screenshots/10-allstaff-received.png)
 
 ## 4. Offboarding
+
+Owen Marsh, the new hire from ticket 006, finished his seasonal contract,
+so he was the leaver. His manager, Priya Patel, took over his mailbox.
+
 ### Why the order matters:
+Access goes first. Blocking sign-in stops new sign-ins, but anything Owen
+was already signed in to would keep working until its session expired, so
+revoking sessions signs him out everywhere straight away. Resetting the
+password means his old one is useless even if the block were lifted by
+mistake.
+
+The mailbox has to be converted to shared before the licence comes off. A
+mailbox without a licence is deleted after 30 days, while a shared mailbox
+under 50 GB doesn't need one. Owen's licence came from
+SG-License-BusinessPremium, so removing him from that group is what takes
+it away, which is why the group removal comes last.
+
+Priya gets Full Access because email keeps arriving after someone leaves:
+parents asking about lessons, staff asking about shifts, threads Owen
+hadn't finished. She has the context to deal with it, and the automatic
+reply tells senders to contact her instead. In a real organization that
+access would be time-limited, usually 30 to 90 days, after which the
+mailbox is kept for retention or deleted.
+
+This is the onboarding checklist from
+[ticket 003](../tickets/003-new-hire-access.md) run backwards, the cloud
+version of "removing someone from their groups removes everything at once."
+
 ### Steps:
+1. Recorded the licence count before starting: 5 of 25 assigned
+2. Blocked sign-in in the Microsoft 365 admin center
+3. Revoked all sign-in sessions in Entra
+4. Confirmed the account was locked by trying to sign in as Owen
+5. Reset his password to a random one nobody knows
+6. Converted his mailbox to a shared mailbox
+7. Gave Priya Full Access to it
+8. Set an automatic reply pointing senders to Priya, inside and outside
+   the organization
+9. Removed him from SG-License-BusinessPremium, the default carterlab
+   Microsoft 365 group and the All Staff distribution list
+10. Confirmed his licence was gone and the count dropped to 4 of 25, with
+    his mailbox still there as a shared mailbox
+
+### Screenshots:
+![Licences before offboarding: 5 of 25 assigned](screenshots/10-offboard-licenses-before.png)
+![Blocking Owen's sign-in](screenshots/10-offboard-block-signin.png)
+![Sessions revoked](screenshots/10-offboard-revoke-sessions.png)
+![Sign-in blocked for Owen](screenshots/10-offboard-signin-blocked.png)
+![Owen's mailbox converted to shared](screenshots/10-offboard-converted-shared.png)
+![Priya given Full Access to Owen's mailbox](screenshots/10-offboard-manager-access.png)
+![Automatic reply pointing senders to Priya](screenshots/10-offboard-auto-reply.png)
+![Owen's licence removed](screenshots/10-offboard-license-removed.png)
+![Licences after offboarding: 4 of 25 assigned](screenshots/10-offboard-licenses-after.png)
+
+## Tickets from this phase
+Each one was reproduced in the tenant and documented in the same format as
+tickets 001–005.
+
+- [006 — New hire has no Outlook licence](../tickets/006-new-hire-no-license.md)
+- [007 — Can't open the shared help desk mailbox](../tickets/007-shared-mailbox-missing.md)
+- [008 — New phone, can't complete MFA](../tickets/008-mfa-new-phone.md)
